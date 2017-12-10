@@ -73,4 +73,97 @@ def model(T, h, y0, u0, d, kp):
 
     return (times, ys, es, us)
 
+# Regulator I
+def model(T, h, y0, u0, d, ki):
+    # Inicjacja tablic
+    times = mh.createArray(0, T, h)
+
+    ys = [y0]
+    es = [d - y0]
+    us = [u0]
+    calka = 0
+
+    a = -0.5
+
+    # Symulacja wypełniająca tablice
+    for i in range(0, len(times) - 1):
+        ys.append(ys[i] + h * (a * ys[i] + us[i]))
+        es.append(d - ys[i + 1])
+        calka += (es[i]) * h
+        us.append(ki * calka)
+
+
+    return (times, ys, es, us)
+
 # Regulator PI
+def model(T, h, y0, u0, d, ki):
+    # Inicjacja tablic
+    times = mh.createArray(0, T, h)
+
+    kp = 3
+
+    ys = [y0]
+    es = [d - y0]
+    us = [u0]
+    calka = 0
+
+    a = -0.5
+
+    # Symulacja wypełniająca tablice
+    for i in range(0, len(times) - 1):
+        ys.append(ys[i] + h * (a * ys[i] + us[i]))
+        es.append(d - ys[i + 1])
+        calka += (es[i]) * h
+        us.append(kp * es[i+1] + ki * calka)
+
+
+    return (times, ys, es, us)
+
+# Model PD
+def model(T, h, y0, u0, d, kd):
+    # Inicjacja tablic
+    times = mh.createArray(0, T, h)
+
+    kp = 3
+
+    ys = [y0]
+    es = [d - y0]
+    us = [u0]
+
+    a = -0.5
+
+    # Symulacja wypełniająca tablice
+    for i in range(0, len(times) - 1):
+        ys.append(ys[i] + h * (a * ys[i] + us[i]))
+        es.append(d - ys[i + 1])
+        us.append(kp * es[i+1] + kd * ((es[i+1] - es[i])/h))
+
+
+    return (times, ys, es, us)
+
+# Model PID
+def model(T, h, y0, u0, d, kd):
+    # Inicjacja tablic
+    times = mh.createArray(0, T, h)
+
+    kp = 30
+    ki = 5
+    kd = 0.2
+
+    ys = [y0]
+    es = [d - y0]
+    us = [u0]
+
+    a = -0.5
+
+    calka = 0
+
+    # Symulacja wypełniająca tablice
+    for i in range(0, len(times) - 1):
+        ys.append(ys[i] + h * (a * ys[i] + us[i]))
+        es.append(d - ys[i + 1])
+        calka += (es[i]) * h
+        us.append(kp * es[i+1] + kd * ((es[i+1] - es[i])/h) + ki * calka)
+
+
+    return (times, ys, es, us)
