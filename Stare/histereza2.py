@@ -16,15 +16,26 @@ def showPlot():
 def model(T, h, x0, y0):
     # Inicjacja tablic
     times = mh.createArray(0, T, h)
-    xs = [x0]
-    ys = [y0]
+
+    d = 1
+
+    xs = [x0] #y
+    ys = [y0] #u
+    es = [d - xs[0]]
+    całka = es[0]*h
+    kp = 1
+    ki = 0.9
+    kd = 0.5
+
+    a = -1./2.
 
     # Symulacja wypełniająca tablice
     for i in range(0, len(times) - 1):
-            # xs.append(xs[i] + h * (    ))
-            # ys.append(ys[i] + h * (    ))
-        xs.append(xs[i] + h * (1 / 2 * xs[i] - ys[i] - 1 / 2 * (xs[i] ** 3 + xs[i] * ys[i] ** 2)))
-        ys.append(ys[i] + h * (xs[i + 1] + 1 / 2 * ys[i] - 1 / 2 * (ys[i] ** 3 + ys[i] * xs[i + 1] ** 2)))
+        es.append(d - xs[i])
+        xs.append(xs[i] + h * (  a * xs[i] +  ys[i] ))
+        całka += es[i + 1]*h
+
+        ys.append(kp * (es[i+1]) + ki * (całka) + kd * ((es[i+1] - es[i])/h))
     return (times, xs, ys)
 
 def generateModels(T, h, xRange, yRange, iterations):
@@ -37,9 +48,13 @@ def generateModels(T, h, xRange, yRange, iterations):
 
 ### WYWOŁYWANIE METOD ###
 print("generating data")
-datas = generateModels(10, 0.001, (-5, 5), (-1, 2), 500)
-# plot = mpt.IssPlot(datas)
-# plot.statePlot([1,2], False, False)
-# plot.show()
-animation = anim.Animation(datas, 100, (1200,600), 1)
-animation.runAnimation()
+datas = generateModels(5, 0.001, (0, 0), (0, 0), 1)
+plot = mpt.IssPlot(datas)
+plot.pointPlot(1)
+plot.pointSub(1)
+plot.statePlot([0, 1], False, False)
+plot.pointSub(2)
+plot.statePlot([0, 2], False, False)
+plot.show()
+# animation = anim.Animation(datas, 1000, (1200,600), 1)
+# animation.runAnimation()
