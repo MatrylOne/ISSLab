@@ -165,5 +165,4 @@ def model(T, h, y0, u0, d, kd):
         calka += (es[i]) * h
         us.append(kp * es[i+1] + kd * ((es[i+1] - es[i])/h) + ki * calka)
 
-
     return (times, ys, es, us)

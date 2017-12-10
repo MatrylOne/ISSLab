@@ -23,7 +23,7 @@ def findMaxError(errorArray):
 def valuesInRange(valueArray, minValue, maxValue):
     arrayLength = len(valueArray) - 1
     for i in range(0, arrayLength):
-        if(max(valueArray[i:arrayLength]) <= maxValue and min(valueArray[i:arrayLength] >= minValue)):
+        if(max(valueArray[i:arrayLength]) <= maxValue and min(valueArray[i:arrayLength]) >= minValue):
             return i
     return -1
 
