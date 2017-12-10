@@ -52,3 +52,25 @@ def model(T, h, y0, u0, d):
                 us.append(us[i])
 
     return (times, ys, es, us)
+
+# Regulator P
+def model(T, h, y0, u0, d, kp):
+    # Inicjacja tablic
+    times = mh.createArray(0, T, h)
+
+    ys = [y0]
+    es = [d - y0]
+    us = [u0]
+
+    a = -0.5
+
+    # Symulacja wypełniająca tablice
+    for i in range(0, len(times) - 1):
+        ys.append(ys[i] + h * (a * ys[i] + us[i]))
+        es.append(d - ys[i + 1])
+        us.append(kp * es[i + 1])
+
+
+    return (times, ys, es, us)
+
+# Regulator PI

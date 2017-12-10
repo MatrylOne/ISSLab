@@ -10,5 +10,12 @@ def createArray(start, stop, step):
         array.append(step*i)
     return array
 
+def createLineArray(timeArray, value):
+    array = []
+    for v in timeArray:
+        array.append(value)
+    return array
+
+
 def randomRange(range):
     return range[0] + (random() * (range[1] - range[0]))

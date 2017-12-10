@@ -1,4 +1,5 @@
 import matplotlib.pyplot as pt
+import helpers.modelHelper as mh
 
 class IssPlot(object):
     def __init__(self, datas):
@@ -24,7 +25,6 @@ class IssPlot(object):
         pass
 
     def statePlot(self, indexes, showBegining, showEnd):
-        # pt.subplot(313)
         for i in range(0, len(self.datas)):
             # Wykres stanu
             pt.plot(self.datas[i][indexes[0]], self.datas[i][indexes[1]])
@@ -36,6 +36,12 @@ class IssPlot(object):
                 pt.plot(self.datas[i][indexes[0]][len(self.datas[i][indexes[0]]) - 1], self.datas[i][indexes[1]][len(self.datas[i][indexes[1]]) - 1], "ro")
             # pt.plot(self.datas[i][1][len(self.datas[i][1]) - 1], self.datas[i][2][len(self.datas[i][2]) - 1], "ro")
         pass
+
+    def drawLine(self, timeIndex, value):
+        for i in range(0, len(self.datas)):
+            valueArray = mh.createLineArray(self.datas[i][timeIndex], value)
+
+            pt.plot(self.datas[i][timeIndex], valueArray)
 
     def show(self):
         pt.show()
