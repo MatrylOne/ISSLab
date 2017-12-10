@@ -17,13 +17,13 @@ def calculatePowerDerivative(timeArray, errorArray):
             calka += error*error*h
     return calka
 
-def findMaxError(errorArray):
-    return max(errorArray)
+def findMaxError(errorArray, stableIndex):
+    return max(errorArray[stableIndex:len(errorArray)-1])
 
 def valuesInRange(valueArray, minValue, maxValue):
     arrayLength = len(valueArray) - 1
     for i in range(0, arrayLength):
-        if(max(valueArray[i:arrayLength]) <= maxValue and min(valueArray[i:arrayLength]) >= minValue):
+        if(max(valueArray[i:arrayLength]) <= maxValue and min(valueArray[i:arrayLength] >= minValue)):
             return i
     return -1
 

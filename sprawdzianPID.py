@@ -12,7 +12,7 @@ def model(T, h, y0, u0, d, kp, ki, kd):
     ys = [y0]
     es = [d - y0]
     us = [u0]
-    a = -0.5
+    a = 5
 
     calka = 0
 
@@ -23,7 +23,7 @@ def model(T, h, y0, u0, d, kp, ki, kd):
         calka += (es[i]) * h
         us.append(kp * es[i+1] + kd * ((es[i+1] - es[i])/h) + ki * calka)
 
-    return (times, ys, es, us)
+    return (times, ys, es, us, (kp, ki, kd))
 
 def generateModels(T, h, y0, u0, d, kpRange, kiRange, kdRange, iterations):
     # Inicjacja tablicy wyników
@@ -37,21 +37,24 @@ def countQuality(datas):
     derivaties = []
 
     for data in datas:
-        derivaties.append(mh.calculateErrorDerivative(data[0], data[2]))
+        error = mh.findMaxError(data[2])
+        print(error)
+        derivaties.append(error)
 
+    choosen = min(derivaties)
+    print(choosen)
     return derivaties.index(min(derivaties))
 
 
 # WYWOŁYWANIE METOD
 print("generating data")
-# datas = generateModels(8., 0.01, 0, 0, 1, (0.01, 1000), (0.01, 50), (0,0.9), 10000)
-data = model(.1, 0.01, 0, 0, 1, 20,  5, 0.1)
-# best = countQuality(datas)
-# print(datas[best][4])
+datas = generateModels(8., 0.01, 0, 0, 1, (0.01, 300), (0.01, 50), (0,0.8), 10000)
+best = countQuality(datas)
 
-# print(data[0:3])
+bestDatas = [datas[best]]
+print(bestDatas[0][4])
 
-plot = mpt.IssPlot(data)
+plot = mpt.IssPlot(bestDatas)
 plot.pointPlot(1)
 plot.pointSub(1)
 plot.statePlot([0, 1], False, False)
