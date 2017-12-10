@@ -25,27 +25,35 @@ def model(T, h, y0, u0, d, kp, ki, kd):
 
     return (times, ys, es, us)
 
-def generateModels(T, h, xRange, yRange, iterations):
+def generateModels(T, h, y0, u0, d, kpRange, kiRange, kdRange, iterations):
     # Inicjacja tablicy wyników
     datas = []
     # Losowanie
     for i in range(0, iterations):
-        datas.append(model(T, h, mh.randomRange(xRange), mh.randomRange(yRange)))
+        datas.append(model(T, h, y0, u0, d, mh.randomRange(kpRange), mh.randomRange(kiRange),  mh.randomRange(kdRange)))
     return datas
+
+def countQuality(datas):
+    derivaties = []
+
+    for data in datas:
+        derivaties.append(mh.calculateErrorDerivative(data[0], data[2]))
+
+    return derivaties.index(min(derivaties))
+
 
 # WYWOŁYWANIE METOD
 print("generating data")
-data = [model(8., 0.01, 0., 0., 1., 1.1)]
-print(mh.calculateErrorDerivative(data[0][0], data[0][2]))
-print(mh.calculatePowerDerivative(data[0][0], data[0][2]))
-goodIndex = mh.valuesInRange(data[0][1], 0.95, 1.05)
-print(data[0][0][goodIndex])
+# datas = generateModels(8., 0.01, 0, 0, 1, (0.01, 1000), (0.01, 50), (0,0.9), 10000)
+data = model(.1, 0.01, 0, 0, 1, 20,  5, 0.1)
+# best = countQuality(datas)
+# print(datas[best][4])
+
+# print(data[0:3])
+
 plot = mpt.IssPlot(data)
 plot.pointPlot(1)
 plot.pointSub(1)
-plot.drawLine(0, 0.95)
-plot.drawLine(0, 1)
-plot.drawLine(0, 1.05)
 plot.statePlot([0, 1], False, False)
 plot.pointSub(2)
 plot.statePlot([0, 2], False, False)
