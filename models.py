@@ -1,9 +1,4 @@
-import helpers.animationHelper as ah
-import helpers.modelHelper as mh
-import helpers.issAnimation as anim
-import helpers.issPlot as mpt
-import pygame
-
+# Histereza
 # GŁÓWNE METODY
 def model(T, h, y0, u0, d):
     # Inicjacja tablic
@@ -57,24 +52,3 @@ def model(T, h, y0, u0, d):
                 us.append(us[i])
 
     return (times, ys, es, us)
-
-def generateModels(T, h, xRange, yRange, iterations):
-    # Inicjacja tablicy wyników
-    datas = []
-    # Losowanie
-    for i in range(0, iterations):
-        datas.append(model(T, h, mh.randomRange(xRange), mh.randomRange(yRange)))
-    return datas
-
-# WYWOŁYWANIE METOD
-print("generating data")
-data = [model(20, 0.01, 0, 0, 0.5)]
-plot = mpt.IssPlot(data)
-plot.pointPlot(1)
-plot.pointSub(1)
-plot.statePlot([0, 1], False, False)
-plot.pointSub(2)
-plot.statePlot([0, 2], False, False)
-plot.pointSub(3)
-plot.statePlot([0, 3], False, False)
-plot.show()

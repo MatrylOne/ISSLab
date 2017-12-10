@@ -10,7 +10,7 @@ class IssPlot(object):
         pass
 
     def pointSub(self, Index):
-        pt.subplot(21*10 + Index)
+        pt.subplot(31*10 + Index)
         pass
     def timePlot(self):
         # Wykres wartości od czasu
