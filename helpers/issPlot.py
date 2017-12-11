@@ -24,17 +24,21 @@ class IssPlot(object):
         pt.ylabel("stan")
         pass
 
-    def statePlot(self, indexes, showBegining, showEnd):
+    def statePlot(self, indexes, showBegining, showEnd, label):
+        plots = []
         for i in range(0, len(self.datas)):
             # Wykres stanu
-            pt.plot(self.datas[i][indexes[0]], self.datas[i][indexes[1]])
+            newHandle, = pt.plot(self.datas[i][indexes[0]], self.datas[i][indexes[1]], label=label)
+            plots.append(newHandle)
+            pt.legend(handles=plots)
+            pt.xlabel("czas")
+            pt.ylabel(label)
             # Punkt początku
             if showBegining:
                 pt.plot(self.datas[i][indexes[0]][0], self.datas[i][indexes[1]][0], "bo")
             # # Punkt końca
             if showEnd:
                 pt.plot(self.datas[i][indexes[0]][len(self.datas[i][indexes[0]]) - 1], self.datas[i][indexes[1]][len(self.datas[i][indexes[1]]) - 1], "ro")
-            # pt.plot(self.datas[i][1][len(self.datas[i][1]) - 1], self.datas[i][2][len(self.datas[i][2]) - 1], "ro")
         pass
 
     def drawLine(self, timeIndex, value):

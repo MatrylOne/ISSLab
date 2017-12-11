@@ -167,3 +167,15 @@ def model(T, h, y0, u0, d, kd):
 
 
     return (times, ys, es, us)
+
+def countQuality(datas):
+    derivaties = []
+
+    for data in datas:
+        error = mh.findMaxError(data[2], 2)
+        print(error)
+        derivaties.append(error)
+
+    choosen = min(derivaties)
+    print(choosen)
+    return derivaties.index(min(derivaties))
