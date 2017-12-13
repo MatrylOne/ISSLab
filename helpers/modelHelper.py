@@ -1,5 +1,6 @@
 from random import random
 from math import fabs
+from math import floor
 
 def calculateErrorDerivative(timeArray, errorArray):
     calka = 0
@@ -45,3 +46,7 @@ def createLineArray(timeArray, value):
 
 def randomRange(range):
     return range[0] + (random() * (range[1] - range[0]))
+
+def delayToSteps(delay, h):
+    stepsBack = floor(delay/h)
+    return stepsBack
